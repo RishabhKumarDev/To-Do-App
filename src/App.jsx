@@ -16,7 +16,7 @@ function App() {
             <TodoForm />
           </div>
           <div className="flex flex-wrap gap-y-3">
-            {todos?.map((todo) => (
+            {todos?.map((todo) => ( // get all the todos and map and put them in a div and pass the todo as the prop cuz they only work on these values
               <div className=" w-full">
                 <TodoItem key={todo.id} todo={todo} />
               </div>

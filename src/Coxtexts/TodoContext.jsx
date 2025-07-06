@@ -25,47 +25,43 @@ export const TodoProvider = ({ children }) => {
 
   // to add todos
   const addTodo = (todo) => { // we are receiving an obj that's why we are spreading it in the 
-    setTodos((prev) => [...prev, { id: Date.now(), ...todo }]);
-    console.log("addtodo is working", todo);
+     // the reason we are destructuring cuz React only updates the values when the referenc has changed and not just the value(search if didn't get it)
+    setTodos((prev) => [...prev, { id: Date.now(), ...todo }]); // take the prev value of the todos which will hold an array and destructure it
+    //                                                              then add a obj and put the id key and value and then destructure the recived todo.
     
   };
 
   // to edit todos
-  const editTodo = (id, todo) => {
-    setTodos((prev) =>
-      prev.map((prevTodo) => (prevTodo.id === id ? todo : prevTodo))
+  const editTodo = (id, todo) => { // recieve an id and an obj( so no need to destructure here it's alwready )
+    setTodos((prev) => 
+      prev.map((prevTodo) => (prevTodo.id === id ? todo : prevTodo)) // if the id matches it updates the passed values i.e an obj with updated values
     );
-    console.log("edit todo is working")
   };
  
   // to delete todos
   const deleteTodo = (id) => {
-    setTodos((prev) => prev.filter((prevTodo) => prevTodo.id !== id));
-    console.log("delete todo is working")
+    setTodos((prev) => prev.filter((prevTodo) => prevTodo.id !== id)); // simply checks if the id passed is not equal to the todo id, so it only returns all the todo's whose id's are different
   };
  
   // to toggle the style for adding styling of completions
   const toggleComplete = (id) => {
     setTodos((prev) =>
-      prev.map((prevTodo) =>
-        prevTodo.id === id
-          ? { ...prevTodo, completed: !prevTodo.completed }
-          : prevTodo
+      prev.map((prevTodo) => // map over the arr of obj(todo)
+        prevTodo.id === id // match the id
+          ? { ...prevTodo, completed: !prevTodo.completed } // if true destructure it and update the value of key "completed" to opsite of it.
+          : prevTodo // if false the then return prevTodo (don't change the values)
       )
     );
-    console.log("toggle todo is working")
   };
 
   // this will run on the time of initial render, to get all the todos saved on the local storage.
   useEffect(() => {
-    const todos = localStorage.getItem("todos");
+    const todos = localStorage.getItem("todos"); // get the todos 
 
-    
-
-    if (todos){
-      const parseTodos = JSON.parse(todos);
-      if(parseTodos && parseTodos.length >0){
-        setTodos(parseTodos);
+    if (todos){ // check if todo exists
+      const parseTodos = JSON.parse(todos); // convert them from string to useable format
+      if(parseTodos && parseTodos.length >0){ // fi true
+        setTodos(parseTodos); // set them
       }
     }
       
